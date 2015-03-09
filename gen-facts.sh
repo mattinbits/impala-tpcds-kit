@@ -13,6 +13,7 @@ t=store_sales
 
 for (( c=$start; c<($count+$start); c++ ))
 do
+  mkdir -p data/$t
   echo "Generating part $c of ${DSDGEN_TOTAL_THREADS}"
   ${TPCDS_ROOT}/tools/dsdgen \
     -TABLE $t \
@@ -22,6 +23,6 @@ do
     -DISTRIBUTIONS ${TPCDS_ROOT}/tools/tpcds.idx \
     -TERMINATE N \
     -FILTER Y \
-    -QUIET Y | hdfs dfs -put - ${FLATFILE_HDFS_ROOT}/${t}/${t}_${c}_${DSDGEN_TOTAL_THREADS}.dat &
+    -QUIET Y > data/$t/data.dat
 done
 wait
